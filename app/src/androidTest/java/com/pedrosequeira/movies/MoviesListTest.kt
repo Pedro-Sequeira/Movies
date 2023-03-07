@@ -2,7 +2,7 @@ package com.pedrosequeira.movies
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithTag
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,9 +12,9 @@ class MoviesListTest {
     val rule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun shouldDisplayGreeting() {
-        rule
-            .onNodeWithText("Hello Android!")
-            .assertIsDisplayed()
+    fun shouldDisplayMoviesList() {
+        val testTag = rule.activity.getString(R.string.movies_list_test_tag)
+
+        rule.onNodeWithTag(testTag).assertIsDisplayed()
     }
 }
