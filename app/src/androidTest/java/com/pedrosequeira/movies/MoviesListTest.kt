@@ -13,8 +13,8 @@ class MoviesListTest {
 
     @Test
     fun shouldDisplayMoviesList() {
-        val testTag = rule.activity.getString(R.string.movies_list_test_tag)
+        val movieListTag = rule.activity.getString(R.string.movies_list_test_tag)
 
-        rule.onNodeWithTag(testTag).assertIsDisplayed()
+        rule.onNodeWithTag(movieListTag).assertIsDisplayed()
     }
 }
