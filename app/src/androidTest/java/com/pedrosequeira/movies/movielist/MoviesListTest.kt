@@ -1,10 +1,13 @@
-package com.pedrosequeira.movies
+package com.pedrosequeira.movies.movielist
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.pedrosequeira.movies.MainActivity
+import com.pedrosequeira.movies.R
 import com.pedrosequeira.movies.movielist.di.MovieListViewModelModule
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
+import com.pedrosequeira.movies.testdata.LocalMoviesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +20,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 @UninstallModules(MovieListViewModelModule::class)
-internal class LoadingScreenTest {
+internal class MoviesListTest {
 
     @Module
     @InstallIn(ViewModelComponent::class)
@@ -25,7 +28,11 @@ internal class LoadingScreenTest {
 
         @Provides
         fun provideRepository(): MoviesRepository {
-            return DelayedMoviesRepository()
+            val moviesList = mutableListOf<String>()
+            for (i in 1..10) {
+                moviesList.add("Movie $i")
+            }
+            return LocalMoviesRepository(moviesList)
         }
     }
 
@@ -36,9 +43,9 @@ internal class LoadingScreenTest {
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun shouldDisplayLoadingAtStart() {
-        val loadingTestTag = composeRule.activity.getString(R.string.loading_test_tag)
+    fun shouldDisplayMovieList() {
+        val movieListTestTag = composeRule.activity.getString(R.string.movies_list_test_tag)
 
-        composeRule.onNodeWithTag(loadingTestTag).assertIsDisplayed()
+        composeRule.onNodeWithTag(movieListTestTag).assertIsDisplayed()
     }
 }

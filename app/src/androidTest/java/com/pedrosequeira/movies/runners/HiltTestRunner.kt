@@ -1,4 +1,4 @@
-package com.pedrosequeira.movies
+package com.pedrosequeira.movies.runners
 
 import android.app.Application
 import android.content.Context

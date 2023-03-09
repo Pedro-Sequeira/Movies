@@ -1,7 +1,9 @@
-package com.pedrosequeira.movies
+package com.pedrosequeira.movies.movielist
 
 import com.pedrosequeira.movies.movielist.models.MovieListState
 import com.pedrosequeira.movies.movielist.presentation.MovieListViewModel
+import com.pedrosequeira.movies.rules.TestDispatcherRule
+import com.pedrosequeira.movies.testdata.LocalMoviesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.launch

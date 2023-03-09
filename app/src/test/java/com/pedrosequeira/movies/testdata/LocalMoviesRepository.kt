@@ -1,4 +1,4 @@
-package com.pedrosequeira.movies
+package com.pedrosequeira.movies.testdata
 
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 

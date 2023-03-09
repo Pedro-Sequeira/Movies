@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.pedrosequeira.movies
+package com.pedrosequeira.movies.rules
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +14,7 @@ import org.junit.runner.Description
 class TestDispatcherRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
+
     override fun starting(description: Description) {
         Dispatchers.setMain(testDispatcher)
     }
