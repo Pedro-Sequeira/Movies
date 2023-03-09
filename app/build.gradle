@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "com.pedrosequeira.movies.HiltTestRunner"
+        testInstrumentationRunner "com.pedrosequeira.movies.runners.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }

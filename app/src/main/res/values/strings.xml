@@ -2,4 +2,8 @@
     <string name="app_name">Movies</string>
     <string name="movies_list_test_tag">movies list</string>
     <string name="loading_test_tag">loading test tag</string>
+    <string name="movie_list_error_tag">movie list error tag</string>
+    <string name="error_title">Error</string>
+    <string name="generic_error_description">Something went wrong</string>
+    <string name="cta_retry">Retry</string>
 </resources>
