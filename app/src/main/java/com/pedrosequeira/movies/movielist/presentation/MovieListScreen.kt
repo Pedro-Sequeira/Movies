@@ -11,11 +11,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.pedrosequeira.movies.R
 
 @Composable
 internal fun MovieListScreen(
-    viewModel: MovieListViewModel
+    viewModel: MovieListViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState().value
 

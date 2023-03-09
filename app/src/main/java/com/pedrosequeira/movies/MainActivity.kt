@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pedrosequeira.movies.movielist.repository.LocalMoviesRepository
 import com.pedrosequeira.movies.movielist.presentation.MovieListScreen
-import com.pedrosequeira.movies.movielist.presentation.MovieListViewModel
 import com.pedrosequeira.movies.ui.theme.MoviesTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity @Inject constructor() : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -21,12 +22,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val repository = LocalMoviesRepository()
-                    val viewModel = MovieListViewModel(repository)
-                    MovieListScreen(viewModel)
+                    MovieListScreen()
                 }
             }
         }
     }
 }
-
