@@ -43,12 +43,12 @@ private fun LoadingComponent() {
 }
 
 @Composable
-private fun MovieListComponent(it: List<String>) {
+private fun MovieListComponent(movies: List<String>) {
     LazyColumn(
         Modifier
             .testTag(stringResource(R.string.movies_list_test_tag))
     ) {
-        items(it) { movie ->
+        items(movies) { movie ->
             Text(
                 modifier = Modifier.testTag("movie"),
                 text = movie

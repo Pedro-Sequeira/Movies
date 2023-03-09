@@ -17,7 +17,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 @UninstallModules(MovieListViewModelModule::class)
-internal class MoviesListTest {
+internal class LoadingScreenTest {
 
     @Module
     @InstallIn(ViewModelComponent::class)
@@ -25,11 +25,7 @@ internal class MoviesListTest {
 
         @Provides
         fun provideRepository(): MoviesRepository {
-            val moviesList = mutableListOf<String>()
-            for (i in 1..10) {
-                moviesList.add("Movie $i")
-            }
-            return LocalMoviesRepository(moviesList)
+            return DelayedMoviesRepository()
         }
     }
 
@@ -40,9 +36,9 @@ internal class MoviesListTest {
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun shouldDisplayMovieList() {
-        val movieListTestTag = composeRule.activity.getString(R.string.movies_list_test_tag)
+    fun shouldDisplayLoadingAtStart() {
+        val loadingTestTag = composeRule.activity.getString(R.string.loading_test_tag)
 
-        composeRule.onNodeWithTag(movieListTestTag).assertIsDisplayed()
+        composeRule.onNodeWithTag(loadingTestTag).assertIsDisplayed()
     }
 }
