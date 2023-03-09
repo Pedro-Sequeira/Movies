@@ -6,6 +6,7 @@ import com.pedrosequeira.movies.movielist.models.MovieListState
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,8 +21,12 @@ internal class MovieListViewModel @Inject constructor(
     private val _state = MutableStateFlow(MovieListState())
     val state: StateFlow<MovieListState> = _state.asStateFlow()
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _state.update { it.error() }
+    }
+
     fun fetchMovies() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _state.update { it.loading() }
             val movies = repository.fetchMovies()
             _state.update {

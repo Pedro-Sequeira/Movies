@@ -1,7 +1,9 @@
 package com.pedrosequeira.movies.movielist
 
+import com.pedrosequeira.movies.movielist.models.MovieListError
 import com.pedrosequeira.movies.movielist.models.MovieListState
 import com.pedrosequeira.movies.movielist.presentation.MovieListViewModel
+import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import com.pedrosequeira.movies.rules.TestDispatcherRule
 import com.pedrosequeira.movies.testdata.LocalMoviesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +22,7 @@ internal class MovieListTest {
     val testDispatcherRule = TestDispatcherRule()
 
     @Test
-    fun `display an empty movie list`() = runTest {
+    fun `loading an empty movie list`() = runTest {
         val collectedStates = mutableListOf<MovieListState>()
 
         val repository = LocalMoviesRepository()
@@ -40,4 +42,35 @@ internal class MovieListTest {
         )
         assertEquals(expectedStates, collectedStates)
     }
+
+    @Test
+    fun `catching the error state`() = runTest {
+        val collectedStates = mutableListOf<MovieListState>()
+
+        val repository = ErrorRepository()
+        val viewModel = MovieListViewModel(repository)
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.state.toCollection(collectedStates)
+        }
+
+        viewModel.fetchMovies()
+
+        val expectedStates = listOf(
+            MovieListState(isLoading = true),
+            MovieListState(
+                isLoading = false,
+                error = MovieListError.GenericError
+            )
+        )
+        assertEquals(expectedStates, collectedStates)
+    }
 }
+
+private class ErrorRepository : MoviesRepository {
+
+    override suspend fun fetchMovies(): List<String> {
+        throw Throwable()
+    }
+}
+
