@@ -2,17 +2,17 @@ package com.pedrosequeira.movies.movielist.models
 
 internal data class MovieListState(
     val isLoading: Boolean = true,
-    val movies: List<String>? = null,
+    val paginatedMovies: Pagination<Movie>? = null,
     val error: MovieListError? = null
 ) {
     fun loading(): MovieListState {
         return this.copy(isLoading = true)
     }
 
-    fun movies(movies: List<String>): MovieListState {
+    fun movies(movies: List<Movie>): MovieListState {
         return this.copy(
             isLoading = false,
-            movies = movies
+            paginatedMovies = Pagination(results = movies)
         )
     }
 

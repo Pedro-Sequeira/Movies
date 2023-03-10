@@ -6,6 +6,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.pedrosequeira.movies.MainActivity
 import com.pedrosequeira.movies.R
 import com.pedrosequeira.movies.movielist.di.MovieListViewModelModule
+import com.pedrosequeira.movies.movielist.models.Movie
+import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import com.pedrosequeira.movies.testdata.LocalMoviesRepository
 import dagger.Module
@@ -28,11 +30,11 @@ internal class MoviesListTest {
 
         @Provides
         fun provideRepository(): MoviesRepository {
-            val moviesList = mutableListOf<String>()
+            val moviesList = mutableListOf<Movie>()
             for (i in 1..10) {
-                moviesList.add("Movie $i")
+                moviesList.add(Movie(title = "Movie $i"))
             }
-            return LocalMoviesRepository(moviesList)
+            return LocalMoviesRepository(Pagination(results = moviesList))
         }
     }
 

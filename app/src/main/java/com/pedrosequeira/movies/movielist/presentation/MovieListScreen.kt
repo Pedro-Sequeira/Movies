@@ -27,7 +27,7 @@ internal fun MovieListScreen(
             }
         }
 
-        state.movies?.let {
+        state.paginatedMovies?.let {
             MovieListComponent(it)
         }
     }

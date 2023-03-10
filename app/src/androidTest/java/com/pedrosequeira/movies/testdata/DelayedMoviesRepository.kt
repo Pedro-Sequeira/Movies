@@ -1,12 +1,14 @@
 package com.pedrosequeira.movies.testdata
 
+import com.pedrosequeira.movies.movielist.models.Movie
+import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import kotlinx.coroutines.delay
 
 internal class DelayedMoviesRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): List<String> {
+    override suspend fun fetchMovies(): Pagination<Movie> {
         delay(1_000)
-        return emptyList()
+        return Pagination()
     }
 }

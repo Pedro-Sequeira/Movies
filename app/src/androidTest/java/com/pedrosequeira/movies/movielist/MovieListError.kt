@@ -6,6 +6,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.pedrosequeira.movies.MainActivity
 import com.pedrosequeira.movies.R
 import com.pedrosequeira.movies.movielist.di.MovieListViewModelModule
+import com.pedrosequeira.movies.movielist.models.Movie
+import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import dagger.Module
 import dagger.Provides
@@ -47,7 +49,7 @@ internal class MovieListError {
 
 private class ErrorMoviesRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): List<String> {
+    override suspend fun fetchMovies(): Pagination<Movie> {
         throw Throwable()
     }
 }

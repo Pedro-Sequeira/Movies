@@ -1,7 +1,9 @@
 package com.pedrosequeira.movies.movielist
 
+import com.pedrosequeira.movies.movielist.models.Movie
 import com.pedrosequeira.movies.movielist.models.MovieListError
 import com.pedrosequeira.movies.movielist.models.MovieListState
+import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.presentation.MovieListViewModel
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 import com.pedrosequeira.movies.rules.TestDispatcherRule
@@ -37,7 +39,7 @@ internal class MovieListTest {
             MovieListState(isLoading = true),
             MovieListState(
                 isLoading = false,
-                movies = emptyList()
+                paginatedMovies = Pagination()
             )
         )
         assertEquals(expectedStates, collectedStates)
@@ -69,7 +71,7 @@ internal class MovieListTest {
 
 private class ErrorRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): List<String> {
+    override suspend fun fetchMovies(): Pagination<Movie> {
         throw Throwable()
     }
 }
