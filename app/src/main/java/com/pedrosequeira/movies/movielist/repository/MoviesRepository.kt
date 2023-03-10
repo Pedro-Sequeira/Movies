@@ -5,5 +5,5 @@ import com.pedrosequeira.movies.movielist.models.Pagination
 
 internal interface MoviesRepository {
 
-    suspend fun fetchMovies(): Pagination<Movie>
+    suspend fun fetchMovies(page: Int): Pagination<Movie>
 }

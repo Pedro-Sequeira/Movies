@@ -28,10 +28,17 @@ internal class MovieListViewModel @Inject constructor(
     fun fetchMovies() {
         viewModelScope.launch(exceptionHandler) {
             _state.update { it.loading() }
-            val paginatedMovies = repository.fetchMovies()
+            val paginatedMovies = repository.fetchMovies(
+                _state.value.currentPage()
+            )
             _state.update {
-                it.movies(paginatedMovies.results)
+                it.paginatedMovies(paginatedMovies)
             }
         }
+    }
+
+    fun fetchMoreMovies() {
+        _state.update { it.nextPage() }
+        fetchMovies()
     }
 }

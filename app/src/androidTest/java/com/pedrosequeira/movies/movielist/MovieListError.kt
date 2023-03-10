@@ -49,7 +49,7 @@ internal class MovieListError {
 
 private class ErrorMoviesRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): Pagination<Movie> {
+    override suspend fun fetchMovies(page: Int): Pagination<Movie> {
         throw Throwable()
     }
 }

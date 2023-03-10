@@ -9,10 +9,10 @@ internal data class MovieListState(
         return this.copy(isLoading = true)
     }
 
-    fun movies(movies: List<Movie>): MovieListState {
+    fun paginatedMovies(paginatedMovies: Pagination<Movie>): MovieListState {
         return this.copy(
             isLoading = false,
-            paginatedMovies = Pagination(results = movies)
+            paginatedMovies = paginatedMovies
         )
     }
 
@@ -21,5 +21,17 @@ internal data class MovieListState(
             isLoading = false,
             error = MovieListError.GenericError
         )
+    }
+
+    fun nextPage(): MovieListState {
+        return this.copy(
+            paginatedMovies = this.paginatedMovies?.copy(
+                page = this.paginatedMovies.page.plus(1)
+            )
+        )
+    }
+
+    fun currentPage(): Int {
+        return this.paginatedMovies?.page ?: 1
     }
 }

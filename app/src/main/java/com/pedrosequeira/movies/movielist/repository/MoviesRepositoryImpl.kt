@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal class MoviesRepositoryImpl @Inject constructor(): MoviesRepository {
 
-    override suspend fun fetchMovies(): Pagination<Movie> {
+    override suspend fun fetchMovies(page: Int): Pagination<Movie> {
         val moviesList = mutableListOf<Movie>()
         for (i in 1..1000) {
             moviesList.add(Movie(title = "Movie $i"))

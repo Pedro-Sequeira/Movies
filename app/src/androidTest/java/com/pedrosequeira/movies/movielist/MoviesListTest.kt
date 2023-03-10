@@ -9,7 +9,7 @@ import com.pedrosequeira.movies.movielist.di.MovieListViewModelModule
 import com.pedrosequeira.movies.movielist.models.Movie
 import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
-import com.pedrosequeira.movies.testdata.LocalMoviesRepository
+import com.pedrosequeira.movies.testdata.InMemoryMoviesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +34,7 @@ internal class MoviesListTest {
             for (i in 1..10) {
                 moviesList.add(Movie(title = "Movie $i"))
             }
-            return LocalMoviesRepository(Pagination(results = moviesList))
+            return InMemoryMoviesRepository(Pagination(results = moviesList))
         }
     }
 

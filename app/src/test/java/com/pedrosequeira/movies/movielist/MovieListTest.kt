@@ -24,7 +24,7 @@ internal class MovieListTest {
     val testDispatcherRule = TestDispatcherRule()
 
     @Test
-    fun `loading an empty movie list`() = runTest {
+    fun `load an empty movie list`() = runTest {
         val collectedStates = mutableListOf<MovieListState>()
 
         val repository = LocalMoviesRepository()
@@ -33,6 +33,7 @@ internal class MovieListTest {
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
             viewModel.state.toCollection(collectedStates)
         }
+
         viewModel.fetchMovies()
 
         val expectedStates = listOf(
@@ -46,7 +47,7 @@ internal class MovieListTest {
     }
 
     @Test
-    fun `catching the error state`() = runTest {
+    fun `catch the error state`() = runTest {
         val collectedStates = mutableListOf<MovieListState>()
 
         val repository = ErrorRepository()
@@ -67,12 +68,72 @@ internal class MovieListTest {
         )
         assertEquals(expectedStates, collectedStates)
     }
-}
 
-private class ErrorRepository : MoviesRepository {
+    private class ErrorRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): Pagination<Movie> {
-        throw Throwable()
+        override suspend fun fetchMovies(page: Int): Pagination<Movie> {
+            throw Throwable()
+        }
+    }
+
+    @Test
+    fun `test pagination`() = runTest {
+        val collectedStates = mutableListOf<MovieListState>()
+
+        val repository = LocalMoviesRepository(
+            Pagination(
+                results = createMovies(1..20),
+                totalResults = 20,
+                totalPages = 2
+            )
+        )
+        val viewModel = MovieListViewModel(repository)
+
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.state.toCollection(collectedStates)
+        }
+
+        viewModel.fetchMovies()
+
+        viewModel.fetchMoreMovies()
+
+        val expectedStates = listOf(
+            MovieListState(isLoading = true),
+            MovieListState(
+                isLoading = false,
+                paginatedMovies = Pagination(
+                    page = 1,
+                    results = createMovies(1..10),
+                    totalResults = 20,
+                    totalPages = 2
+                )
+            ),
+            MovieListState(
+                isLoading = false,
+                paginatedMovies = Pagination(
+                    page = 2,
+                    results = createMovies(1..10),
+                    totalResults = 20,
+                    totalPages = 2
+                )
+            ),
+            MovieListState(
+                isLoading = false,
+                paginatedMovies = Pagination(
+                    page = 2,
+                    results = createMovies(11..20),
+                    totalResults = 20,
+                    totalPages = 2
+                )
+            )
+        )
+        assertEquals(expectedStates, collectedStates)
+    }
+
+    private fun createMovies(numberOfMovies: IntRange): List<Movie> {
+        return numberOfMovies.map {
+            Movie(title = "Movie $it")
+        }
     }
 }
 

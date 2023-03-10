@@ -5,12 +5,20 @@ import com.pedrosequeira.movies.movielist.models.Pagination
 import com.pedrosequeira.movies.movielist.repository.MoviesRepository
 
 internal class LocalMoviesRepository(
-    movies: Pagination<Movie> = Pagination()
+    private val paginatedMovies: Pagination<Movie> = Pagination()
 ) : MoviesRepository {
 
-    private val movieList = movies.results.toMutableList()
+    override suspend fun fetchMovies(page: Int): Pagination<Movie> {
+        if (paginatedMovies.totalPages == 0) return Pagination()
 
-    override suspend fun fetchMovies(): Pagination<Movie> {
-        return Pagination(results = movieList)
+        val resultsPerPage = paginatedMovies.totalResults / paginatedMovies.totalPages
+
+        return paginatedMovies.copy(
+            page = page,
+            results = paginatedMovies.results.subList(
+                fromIndex = (page - 1) * resultsPerPage,
+                toIndex = page * resultsPerPage
+            )
+        )
     }
 }

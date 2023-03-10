@@ -7,7 +7,7 @@ import kotlinx.coroutines.delay
 
 internal class DelayedMoviesRepository : MoviesRepository {
 
-    override suspend fun fetchMovies(): Pagination<Movie> {
+    override suspend fun fetchMovies(page: Int): Pagination<Movie> {
         delay(1_000)
         return Pagination()
     }
