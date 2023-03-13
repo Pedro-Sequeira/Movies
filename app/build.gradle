@@ -63,7 +63,10 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
 
     implementation 'androidx.core:core-ktx:1.9.0'
+
+    // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0"
 
     // Compose
     implementation platform('androidx.compose:compose-bom:2022.10.00')
